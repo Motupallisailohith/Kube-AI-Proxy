@@ -22,7 +22,8 @@ Bridging Anthropic’s Claude / FastMCP and your local Kubernetes CLI tools (kub
 8. [Contributing](#contributing)
 9. [License](#license)
 10. [Contact](#contact)
-11. ![alt text](https://github.com/Motupallisailohith/Kube-AI-Proxy/blob/main/arch.png)
+Architecture
+![alt text](https://github.com/Motupallisailohith/Kube-AI-Proxy/blob/main/arch.png)
 
 ---
 
