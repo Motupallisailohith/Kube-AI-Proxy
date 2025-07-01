@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kube-ai-proxy"
+dependencies = [
+  "fastmcp>=1.0.0", 
+  "pydantic>=2.0",
+  "PyYAML",
+  # … etc …
+]
+version = "0.1.0"
+description = "MCP server proxy for Kubernetes CLI tools"
+readme = "README.md"
+authors = [
+  { name="Your Sai Lohith Motupalli", email="sailohith1439@gmail.com" },
+]
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[tool.setuptools.packages.find]
+where = ["src"]

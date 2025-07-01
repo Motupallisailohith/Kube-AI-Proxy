@@ -1,0 +1,2 @@
+{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"1.0","clientInfo":{"name":"ps-cli","version":"1.0"},"capabilities":{}}}
+{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"execute_kubectl","argument":{"command":"get namespaces"}}}
