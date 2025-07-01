@@ -5,13 +5,6 @@
 A Kubernetes Multi-Command Proxy (MCP) Server
 Bridging Anthropic’s Claude / FastMCP and your local Kubernetes CLI tools (kubectl, Helm, Istioctl, ArgoCD) via JSON-RPC.
 
----
-
-<p align="center">
-  ![architecture Image](arch.png)
-</p>
-
----
 
 ## Table of Contents
 
