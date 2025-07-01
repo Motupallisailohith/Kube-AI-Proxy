@@ -8,7 +8,7 @@ Bridging Anthropic’s Claude / FastMCP and your local Kubernetes CLI tools (kub
 ---
 
 <p align="center">
-  <img src="https://your-cdn.com/architecture_diagram.png" alt="Architecture Diagram" width="700"/>
+  ![architecture Image](arch.png)
 </p>
 
 ---
