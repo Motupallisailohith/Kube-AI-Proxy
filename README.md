@@ -23,6 +23,7 @@ Try natural language Kubernetes operations with real-time command execution and 
 5. **Monitor Operations** - Watch real-time command execution and results
 6. **Test Security** - See RBAC validation and command filtering in action
 
+<<<<<<< HEAD
 ---
 
 *   [Overview](#overview)
@@ -47,6 +48,11 @@ Try natural language Kubernetes operations with real-time command execution and 
 ## Overview
 
 The **Kube AI Proxy** is a production-grade MCP (Model Context Protocol) server that bridges AI assistants with Kubernetes infrastructure through secure, validated command execution. It transforms complex kubectl operations into natural language conversations while maintaining enterprise-grade security.
+
+### Architecture
+![Architecture Diagram](https://github.com/Motupallisailohith/Kube-AI-Proxy/blob/main/arch.png)
+
+---
 
 Key features and concepts:
 
