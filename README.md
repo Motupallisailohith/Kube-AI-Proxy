@@ -2,12 +2,12 @@
 # Kube AI Proxy (kube-ai-proxy)
 Production-grade MCP server enabling AI-powered Kubernetes operations through secure, conversational DevOps interface.
 
-## 🚀 **Live Demo**
+##  **Live Demo**
 **Experience AI-Kubernetes Integration:** [**Interactive Demo**](https://your-demo-url.com) 
 
 Try natural language Kubernetes operations with real-time command execution and intelligent troubleshooting!
 
-### 🎯 **Demo Features:**
+###  **Demo Features:**
 - **Conversational Kubernetes Management** - Deploy, scale, and troubleshoot using natural language
 - **Real-time Command Execution** - Watch kubectl, Helm, Istio, and ArgoCD commands execute safely
 - **Intelligent Troubleshooting** - AI-powered diagnosis of cluster issues with automated fixes
@@ -15,7 +15,7 @@ Try natural language Kubernetes operations with real-time command execution and 
 - **Security Validation** - Live RBAC checks and command validation in action
 - **Interactive Scenarios** - WordPress deployment, scaling operations, and incident response
 
-### 🧪 **How to Use the Demo:**
+###  **How to Use the Demo:**
 1. **Start Conversation** - Ask "Show me all pods in my cluster"
 2. **Deploy Applications** - "Deploy nginx with 3 replicas"
 3. **Troubleshoot Issues** - "My WordPress site is down, what's wrong?"
@@ -23,7 +23,7 @@ Try natural language Kubernetes operations with real-time command execution and 
 5. **Monitor Operations** - Watch real-time command execution and results
 6. **Test Security** - See RBAC validation and command filtering in action
 
-<<<<<<< HEAD
+
 ---
 
 *   [Overview](#overview)
@@ -175,22 +175,22 @@ graph TB
 
 #### Architecture Components
 
-**🤖 AI Client Layer**
+** AI Client Layer**
 - **Claude Desktop**: Primary AI client with natural language interface
 - **ChatGPT/Other AI**: Compatible with any MCP-supporting AI client
 - **Custom AI Apps**: Extensible to custom applications via JSON-RPC
 
-**🔌 MCP Protocol Layer**
+**MCP Protocol Layer**
 - **JSON-RPC 2.0**: Standards-based communication protocol
 - **Transport Options**: stdio (default) or Server-Sent Events (SSE)
 - **Bi-directional**: Request/response pattern with structured error handling
 
-**🛡️ Security Layer (Zero-Trust Architecture)**
+** Security Layer (Zero-Trust Architecture)**
 - **Command Validator**: Syntax validation and CLI tool whitelisting
 - **RBAC Checker**: Real-time Kubernetes permission validation via `kubectl auth can-i`
 - **Security Config**: Configurable dangerous command filtering with safe pattern overrides
 
-**⚡ Execution Layer (Async Processing)**
+** Execution Layer (Async Processing)**
 - **CLI Executors**: Dedicated async executors for each tool (kubectl, Helm, Istio, ArgoCD)
 - **Process Management**: Timeout handling, signal management, and graceful shutdown
 - **Pipeline Support**: Unix pipe operations with shell command validation
@@ -200,7 +200,7 @@ graph TB
 - **Prompt Templates**: Built-in Kubernetes best practices and common workflows
 - **Tool Detection**: Automatic CLI tool availability checking at startup
 
-**☸️ Kubernetes Ecosystem Integration**
+** Kubernetes Ecosystem Integration**
 - **Pre-installed CLI Tools**: Container includes latest stable versions of all tools
 - **Multi-Cluster Support**: Configurable Kubernetes context and namespace targeting
 - **External System Integration**: Helm repositories, Istio service mesh, ArgoCD applications
