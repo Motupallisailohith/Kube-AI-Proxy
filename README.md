@@ -50,7 +50,179 @@ Try natural language Kubernetes operations with real-time command execution and 
 The **Kube AI Proxy** is a production-grade MCP (Model Context Protocol) server that bridges AI assistants with Kubernetes infrastructure through secure, validated command execution. It transforms complex kubectl operations into natural language conversations while maintaining enterprise-grade security.
 
 ### Architecture
-![Architecture Diagram](https://github.com/Motupallisailohith/Kube-AI-Proxy/blob/main/arch.png)
+
+The Kube AI Proxy follows a layered architecture that ensures security, scalability, and maintainability:
+
+```mermaid
+graph TB
+    %% AI Client Layer
+    subgraph "AI Client Layer"
+        Claude[Claude Desktop]
+        ChatGPT[ChatGPT/Other AI]
+        CustomAI[Custom AI Apps]
+    end
+
+    %% MCP Protocol Layer
+    subgraph "MCP Protocol Layer"
+        JSON_RPC[JSON-RPC 2.0<br/>stdin/stdout or SSE]
+    end
+
+    %% Kube AI Proxy Server
+    subgraph "Kube AI Proxy Server (Docker Container)"
+        subgraph "FastMCP Framework"
+            MCPServer[FastMCP Server<br/>Python asyncio]
+            Transport[Transport Handler<br/>stdio/SSE]
+        end
+        
+        subgraph "Security Layer"
+            Validator[Command Validator<br/>Syntax & Whitelist]
+            RBAC[RBAC Checker<br/>kubectl auth can-i]
+            SecurityConfig[Security Config<br/>Dangerous Commands Filter]
+        end
+        
+        subgraph "Execution Layer"
+            subgraph "CLI Executors"
+                KubectlExec[kubectl Executor<br/>asyncio.subprocess]
+                HelmExec[Helm Executor<br/>asyncio.subprocess]
+                IstioExec[Istio Executor<br/>asyncio.subprocess]
+                ArgoExec[ArgoCD Executor<br/>asyncio.subprocess]
+            end
+            
+            CLIExecutor[CLI Executor<br/>Command Processing]
+            Timeout[Timeout Handler<br/>Process Management]
+        end
+        
+        subgraph "Configuration"
+            Config[Config Manager<br/>Environment Variables]
+            Prompts[Prompt Templates<br/>K8s Best Practices]
+        end
+    end
+
+    %% Kubernetes Ecosystem
+    subgraph "Kubernetes Ecosystem"
+        subgraph "CLI Tools (Pre-installed)"
+            kubectl[kubectl v1.33.0]
+            helm[Helm v3.17.3]
+            istioctl[Istio v1.25.2]
+            argocd[ArgoCD v2.14.11]
+        end
+        
+        subgraph "Kubernetes Cluster"
+            K8sAPI[Kubernetes API Server]
+            Pods[Pods & Workloads]
+            Services[Services & Networking]
+            Storage[Storage & Volumes]
+        end
+        
+        subgraph "External Systems"
+            HelmRepos[Helm Repositories]
+            IstioMesh[Istio Service Mesh]
+            ArgoApps[ArgoCD Applications]
+        end
+    end
+
+    %% Data Flow Connections
+    Claude -->|Natural Language| JSON_RPC
+    ChatGPT -->|Natural Language| JSON_RPC
+    CustomAI -->|API Calls| JSON_RPC
+    
+    JSON_RPC -->|MCP Protocol| Transport
+    Transport --> MCPServer
+    
+    MCPServer --> Validator
+    Validator --> RBAC
+    RBAC --> SecurityConfig
+    SecurityConfig --> CLIExecutor
+    
+    CLIExecutor --> KubectlExec
+    CLIExecutor --> HelmExec
+    CLIExecutor --> IstioExec
+    CLIExecutor --> ArgoExec
+    
+    KubectlExec --> kubectl
+    HelmExec --> helm
+    IstioExec --> istioctl
+    ArgoExec --> argocd
+    
+    kubectl --> K8sAPI
+    helm --> HelmRepos
+    helm --> K8sAPI
+    istioctl --> IstioMesh
+    argocd --> ArgoApps
+    
+    K8sAPI --> Pods
+    K8sAPI --> Services
+    K8sAPI --> Storage
+    
+    %% Configuration connections
+    Config --> MCPServer
+    Prompts --> MCPServer
+    Timeout --> CLIExecutor
+
+    %% Styling
+    classDef aiClient fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef security fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef executor fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef k8s fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef protocol fill:#fff8e1,stroke:#f57f17,stroke-width:2px
+
+    class Claude,ChatGPT,CustomAI aiClient
+    class Validator,RBAC,SecurityConfig security
+    class KubectlExec,HelmExec,IstioExec,ArgoExec,CLIExecutor executor
+    class kubectl,helm,istioctl,argocd,K8sAPI,Pods,Services,Storage k8s
+    class JSON_RPC,Transport,MCPServer protocol
+```
+
+#### Architecture Components
+
+**🤖 AI Client Layer**
+- **Claude Desktop**: Primary AI client with natural language interface
+- **ChatGPT/Other AI**: Compatible with any MCP-supporting AI client
+- **Custom AI Apps**: Extensible to custom applications via JSON-RPC
+
+**🔌 MCP Protocol Layer**
+- **JSON-RPC 2.0**: Standards-based communication protocol
+- **Transport Options**: stdio (default) or Server-Sent Events (SSE)
+- **Bi-directional**: Request/response pattern with structured error handling
+
+**🛡️ Security Layer (Zero-Trust Architecture)**
+- **Command Validator**: Syntax validation and CLI tool whitelisting
+- **RBAC Checker**: Real-time Kubernetes permission validation via `kubectl auth can-i`
+- **Security Config**: Configurable dangerous command filtering with safe pattern overrides
+
+**⚡ Execution Layer (Async Processing)**
+- **CLI Executors**: Dedicated async executors for each tool (kubectl, Helm, Istio, ArgoCD)
+- **Process Management**: Timeout handling, signal management, and graceful shutdown
+- **Pipeline Support**: Unix pipe operations with shell command validation
+
+**🔧 Configuration Layer**
+- **Environment-Based Config**: Flexible configuration via environment variables
+- **Prompt Templates**: Built-in Kubernetes best practices and common workflows
+- **Tool Detection**: Automatic CLI tool availability checking at startup
+
+**☸️ Kubernetes Ecosystem Integration**
+- **Pre-installed CLI Tools**: Container includes latest stable versions of all tools
+- **Multi-Cluster Support**: Configurable Kubernetes context and namespace targeting
+- **External System Integration**: Helm repositories, Istio service mesh, ArgoCD applications
+
+#### Data Flow & Request Lifecycle
+
+1. **AI Request**: Natural language input from AI client
+2. **Protocol Translation**: JSON-RPC message parsing and routing
+3. **Security Validation**: Multi-layer security checks (syntax → RBAC → dangerous commands)
+4. **Command Execution**: Async subprocess execution with timeout protection
+5. **Result Processing**: Structured response formatting with error handling
+6. **Response Delivery**: JSON-RPC response back to AI client
+
+#### Security Architecture
+
+The system implements a **defense-in-depth** security model:
+
+- **Input Validation**: All commands validated against allowed CLI tools and syntax
+- **Permission Checking**: Real-time RBAC validation against Kubernetes cluster
+- **Command Filtering**: Dangerous operations blocked with configurable safe patterns
+- **Process Isolation**: Each command executed in isolated subprocess with timeout
+- **Audit Logging**: Complete audit trail of all operations and security decisions
 
 ---
 
