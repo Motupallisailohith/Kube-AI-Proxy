@@ -2,9 +2,6 @@
 # Kube AI Proxy (kube-ai-proxy)
 Production-grade MCP server enabling AI-powered Kubernetes operations through secure, conversational DevOps interface.
 
-##  **Live Demo**
-**Experience AI-Kubernetes Integration:** [**Interactive Demo**](https://your-demo-url.com) 
-
 Try natural language Kubernetes operations with real-time command execution and intelligent troubleshooting!
 
 ###  **Demo Features:**
