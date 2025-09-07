@@ -172,7 +172,7 @@ graph TB
 
 #### Architecture Components
 
-** AI Client Layer**
+**AI Client Layer**
 - **Claude Desktop**: Primary AI client with natural language interface
 - **ChatGPT/Other AI**: Compatible with any MCP-supporting AI client
 - **Custom AI Apps**: Extensible to custom applications via JSON-RPC
